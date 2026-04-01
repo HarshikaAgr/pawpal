@@ -30,13 +30,45 @@ Why: Tighter encapsulation. Tasks know their pet. Scheduler knows its owner. Mak
 
 **a. Constraints and priorities**
 
-- What constraints does your scheduler consider (for example: time, priority, preferences)?
-- How did you decide which constraints mattered most?
+My scheduler considers three main constraints:
+1. **Available time**: Can't schedule more tasks than owner has time for
+2. **Task priority**: High priority tasks scheduled first, then medium, then low
+3. **Task duration**: Each task has a required duration in minutes
+
+Decision: Priority mattered most because pet owners want to ensure critical tasks (feeding, medicine) happen before nice-to-haves (playtime). Time was checked after sorting by priority.
 
 **b. Tradeoffs**
 
-- Describe one tradeoff your scheduler makes.
-- Why is that tradeoff reasonable for this scenario?
+My scheduler makes one major tradeoff:
+- **Greedy scheduling**: Schedule tasks in priority order, fitting as many as possible. Don't rearrange already-scheduled tasks to fit more tasks overall.
+
+Example: If I have 60 minutes and tasks are:
+- Feed (5 min, high) ✓ Scheduled
+- Walk (20 min, high) ✓ Scheduled
+- Groom (30 min, medium) ✗ Doesn't fit (5+20+30 = 55, but we have 60... wait, this WOULD fit!)
+
+Actually, better example:
+- Feed (5 min, high) ✓ Scheduled
+- Walk (30 min, high) ✓ Scheduled
+- Play (20 min, medium) ✓ Scheduled
+- Groom (10 min, low) ✗ Doesn't fit (5+30+20 = 55, leaves only 5 min)
+
+Why reasonable?
+- **Simplicity**: Easy to understand - just go down the list and fit what you can
+- **Fairness**: High-priority tasks always get in first (guaranteed)
+- **Speed**: No complex optimization needed (good for a beginner project!)
+- **Practical**: Pet owners prefer simple schedules they can understand
+
+Alternative (not chosen): "Bin packing" algorithm to rearrange tasks and fit more overall. But this is complex and could surprise users.
+
+Second tradeoff - **Conflict detection**:
+- **Exact time matching only**: Only warns if two tasks start at EXACTLY the same time (08:00). Doesn't check if they overlap in duration (task runs 08:00-08:20, another 08:15-08:30).
+
+Why reasonable?
+- **Simple to understand**: Owner looks at times and can see conflicts immediately
+- **Practical**: Most pet tasks have discrete start times, not overlapping durations
+- **Beginner-friendly**: Not over-engineering for edge cases
+- **Safe**: Better to warn too much than miss a real conflict
 
 ---
 

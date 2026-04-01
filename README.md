@@ -32,6 +32,61 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
+## Getting started
+
+### Setup
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### Run the app
+
+```bash
+# Demo (CLI)
+python main.py
+
+# Interactive (Streamlit)
+streamlit run app.py
+```
+
+---
+
+## Smarter Scheduling Features
+
+Your PawPal+ system now includes intelligent task management:
+
+### 1. **Recurring Tasks**
+- Tasks can repeat daily or weekly
+- When completed, new instance auto-creates for next occurrence
+- Daily: Creates task for tomorrow
+- Weekly: Creates task for next week
+- Smart completion: `pet.complete_task(task)` handles everything
+
+### 2. **Sorting & Filtering**
+- **Sort by Priority**: High → Medium → Low
+- **Sort by Duration**: Shortest first (fit more tasks!)
+- **Sort by Time**: Tasks ordered 08:00 → 09:00 → etc
+- **Filter by Status**: Show completed or incomplete tasks
+- **Filter by Pet**: Show tasks for one pet
+- **Filter by Category**: Show feeding, exercise, grooming, etc
+
+### 3. **Conflict Detection**
+- Warns if two tasks start at same time (can't do both!)
+- Non-blocking: Displays warnings but continues running
+- Helps owners spot scheduling overlaps
+- Example: Feed @ 08:00 + Play @ 08:00 = ⚠️ CONFLICT
+
+### 4. **Schedule Explanation**
+- Shows which tasks fit in available time
+- Displays time used vs remaining
+- Explains why tasks were chosen (priority-based greedy algorithm)
+- Statistics: completed tasks, pending tasks, time breakdown
+
+---
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.
