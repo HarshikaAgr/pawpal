@@ -8,13 +8,21 @@
 
 **a. Initial design**
 
-- Briefly describe your initial UML design.
-- What classes did you include, and what responsibilities did you assign to each?
+Four classes with clear responsibilities:
+- **Owner**: Stores user info (name, available time, preferences). Methods let users update preferences and time.
+- **Pet**: Stores pet details (name, species, age). Methods to get and update pet info.
+- **Task**: Represents a care task (feed, walk, etc.). Has title, duration, priority, category. Methods to update, mark complete, and get details.
+- **Scheduler**: Takes a list of tasks and available time. Generates optimized daily plan by sorting tasks by priority and checking time fit. Explains why tasks were chosen.
+
+Relationships: Owner owns Pets, Owner uses Scheduler, Scheduler manages Tasks for Pets.
 
 **b. Design changes**
 
-- Did your design change during implementation?
-- If yes, describe at least one change and why you made it.
+Yes. Two key changes:
+1. **Task → Pet link**: Added `pet: Optional[Pet]` attribute so tasks know which pet they belong to.
+2. **Scheduler → Owner reference**: Changed Scheduler to accept `owner: Owner` instead of separate task/time lists. Scheduler now calls `owner.get_all_tasks()` to retrieve all pet tasks. This is cleaner and ties the scheduler to the data source.
+
+Why: Tighter encapsulation. Tasks know their pet. Scheduler knows its owner. Makes the system less rigid and easier to extend.
 
 ---
 
