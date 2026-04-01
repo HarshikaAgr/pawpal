@@ -3,7 +3,7 @@
 ## STEP 4: Detect Task Conflicts 
 
 **What is a conflict?**
-When two tasks are scheduled at the same start time, they conflict (can't do both at once!).
+When two tasks are scheduled at the same start time, they conflict (can't do both at once).
 
 Example:
 ```
@@ -25,7 +25,7 @@ def check_time_conflict(self, task1, task2):
     return False
 ```
 
-**Problem:** Only checks if both are scheduled, NOT if they have the SAME TIME!
+**Problem:** Only checks if both are scheduled, NOT if they have the SAME TIME.
 
 ---
 
@@ -63,7 +63,7 @@ print(is_conflict)  # True (same time!)
 
 ## Find ALL Conflicts in Schedule
 
-New method to check the entire schedule at once:
+Check the entire schedule at once:
 
 ```python
 def detect_all_conflicts(self):
@@ -108,7 +108,7 @@ else:
 
 ---
 
-## Print Conflicts (Don't Crash!)
+## Print Conflicts
 
 Add this to `generate_plan()`:
 
@@ -125,10 +125,10 @@ def generate_plan(self):
             self.planned_tasks.append(task)
             remaining_time -= task.duration_minutes
 
-    # CHECK FOR CONFLICTS (but don't crash!)
+    # CHECK FOR CONFLICTS
     conflicts = self.detect_all_conflicts()
     if conflicts:
-        print("\n⚠️ WARNING: Conflicts detected in schedule!")
+        print("\n⚠️ WARNING: Conflicts detected in schedule")
         for conflict in conflicts:
             print(f"  {conflict}")
         print()  # Blank line
@@ -136,7 +136,7 @@ def generate_plan(self):
     return self.planned_tasks
 ```
 
-**Key point:** Detects conflicts but continues running (doesn't crash!)
+**Key point:** Detects conflicts but continues running (doesn't crash)
 
 ---
 
@@ -157,9 +157,9 @@ feed = Task("Feed Buddy", 5, "high", "feeding",
             start_time="08:00", due_date=today)
 buddy.add_task(feed)
 
-# Task 2: Play at 08:00 (SAME TIME!)
+# Task 2: Play at 08:00 (SAME TIME)
 play = Task("Play with Buddy", 15, "high", "exercise",
-            start_time="08:00", due_date=today)  # ← CONFLICT!
+            start_time="08:00", due_date=today)  # CONFLICT
 buddy.add_task(play)
 
 # Task 3: Walk at 09:00 (different time, no conflict)
@@ -174,7 +174,7 @@ scheduler = Scheduler(owner)
 scheduler.generate_plan()
 
 # OUTPUT:
-# ⚠️ WARNING: Conflicts detected in schedule!
+# ⚠️ WARNING: Conflicts detected in schedule
 #   ⚠️ CONFLICT: 'Feed Buddy' and 'Play with Buddy' both at 08:00
 ```
 
@@ -184,7 +184,7 @@ scheduler.generate_plan()
 
 ### Part 1: Compare Two Versions
 
-**VERSION 1 (Simple, Readable):**
+**VERSION 1:**
 ```python
 def check_time_conflict_by_start_time(self, task1, task2):
     """Check if two tasks start at the same time"""
@@ -193,7 +193,7 @@ def check_time_conflict_by_start_time(self, task1, task2):
     return False
 ```
 
-**VERSION 2 (Pythonic, Compact):**
+**VERSION 2:**
 ```python
 def check_time_conflict_by_start_time(self, task1, task2):
     """Check if two tasks start at the same time"""
@@ -207,13 +207,13 @@ def check_time_conflict_by_start_time(self, task1, task2):
 | **1 (if/else)** | Super clear, beginner-friendly | More lines | Learning, teaching |
 | **2 (direct)** | Concise, Pythonic | Less explicit | Production, teams |
 
-**Recommendation:** Use **Version 2** - it's simpler AND more Pythonic!
+**Recommendation:** Use **Version 2** - it's simpler AND more Python coded
 
 ---
 
 ### Part 2: Evaluate `detect_all_conflicts()`
 
-**Current version (nested loops):**
+**Current version:**
 ```python
 def detect_all_conflicts(self):
     """Find ALL tasks that conflict"""
@@ -231,7 +231,7 @@ def detect_all_conflicts(self):
     return conflicts
 ```
 
-**More Pythonic version:**
+**Another version:**
 ```python
 def detect_all_conflicts(self):
     """Find ALL tasks that conflict"""
@@ -257,7 +257,7 @@ def detect_all_conflicts(self):
 - **Version 1:** Uses indices (i, j) - faster, avoids duplicates
 - **Version 2:** More readable, clearer intent
 
-**Decision:** Keep **Version 1** - it's efficient and clear!
+**Decision:** Keep **Version 1** - it's efficient and clear
 
 ---
 
@@ -314,7 +314,7 @@ def detect_all_conflicts(self):
 Create tasks at same time:
 ```python
 feed = Task("Feed", 5, "high", "feeding", start_time="08:00", due_date=today)
-play = Task("Play", 15, "high", "exercise", start_time="08:00", due_date=today)  # CONFLICT!
+play = Task("Play", 15, "high", "exercise", start_time="08:00", due_date=today)  # CONFLICT
 walk = Task("Walk", 20, "high", "exercise", start_time="09:00", due_date=today)
 
 buddy.add_task(feed)

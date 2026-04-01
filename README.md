@@ -87,6 +87,37 @@ Your PawPal+ system now includes intelligent task management:
 
 ---
 
+## Testing PawPal+
+### Run Tests
+
+```bash
+python -m pytest tests/test_pawpal.py -v
+```
+### What's Tested
+
+| Test | Coverage |
+|------|----------|
+| **Task Completion** | Mark tasks as done |
+| **Pet Task Management** | Add/remove tasks from pets |
+| **Owner Management** | Add pets to owner |
+| **Scheduler Plan** | Generate feasible schedules |
+| **Chronological Sorting** | Tasks ordered by time (08:00 → 14:00 → 18:30) |
+| **Recurring Tasks** | Daily task completion auto-creates next occurrence |
+| **Conflict Detection** | Warns when tasks overlap at same start time |
+
+### Test Results
+- **Total Tests**: 7
+- **Passed**: 7 ✓
+- **Failed**: 0
+
+### Confidence Level: ⭐⭐⭐⭐⭐
+All core behaviors validated:
+- ✓ Happy paths (normal operation)
+- ✓ Edge cases (conflicts, recurrence)
+- ✓ Data integrity (proper sorting, creation)
+
+---
+
 ### Suggested workflow
 
 1. Read the scenario carefully and identify requirements and edge cases.
