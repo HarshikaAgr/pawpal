@@ -123,16 +123,48 @@ if st.session_state.owner and st.session_state.owner.pets:
 st.divider()
 
 st.subheader("Build Schedule")
-st.caption("This button should call your scheduling logic once you implement it.")
+
+# ===== SORTING OPTIONS =====
+sort_option = st.selectbox(
+    "Sort tasks by:",
+    ["Priority (High→Low)", "Duration (Short→Long)", "Time (Early→Late)"]
+)
 
 # ===== BUTTON: GENERATE SCHEDULE =====
 if st.button("Generate schedule"):
     if st.session_state.owner and st.session_state.owner.pets:
-        # Call Scheduler class
         scheduler = Scheduler(st.session_state.owner)
+
+        # Show sorted tasks first
+        st.write("**Available Tasks (sorted):**")
+        if sort_option == "Priority (High→Low)":
+            sorted_tasks = scheduler.sort_tasks_by_priority()
+        elif sort_option == "Duration (Short→Long)":
+            sorted_tasks = scheduler.sort_tasks_by_duration()
+        else:  # Time
+            sorted_tasks = scheduler.sort_by_time()
+
+        if sorted_tasks:
+            for task in sorted_tasks:
+                st.write(f"  • {task.get_task_details()}")
+
+        st.divider()
+
+        # Generate schedule
         planned_tasks = scheduler.generate_plan()
 
-        # Show the schedule explanation
+        # Show schedule stats
+        stats = scheduler.get_schedule_stats()
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Total Tasks", stats["total_tasks"])
+        with col2:
+            st.metric("Completed", stats["completed_tasks"])
+        with col3:
+            st.metric("Time Remaining", f"{stats['time_remaining']} min")
+
+        # Show the schedule
+        st.write("**Your Schedule:**")
         st.write(scheduler.explain_plan())
 
         if planned_tasks:

@@ -76,13 +76,49 @@ Why reasonable?
 
 **a. How you used AI**
 
-- How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
-- What kinds of prompts or questions were most helpful?
+Three key ways AI helped:
+
+1. **Code Generation (Agent Mode)**: Scaffolded all 40+ methods in one task. Faster than writing by hand, freed time for testing.
+2. **Docstring Enhancement**: AI suggested clearer docstrings with return types and examples. Made code beginner-friendly.
+3. **Algorithm Evaluation**: Compared simple vs pythonic versions. Helped decide when complexity is worth it (it wasn't for this project).
+
+Most helpful prompts:
+- "Implement Task, Pet, Owner, Scheduler with these specs..."
+- "How should Scheduler retrieve all tasks from Owner's pets?"
+- "Simplify this conflict detection for readability"
 
 **b. Judgment and verification**
 
-- Describe one moment where you did not accept an AI suggestion as-is.
-- How did you evaluate or verify what the AI suggested?
+**What I rejected:**
+
+AI suggested complex session state for app.py:
+```python
+# AI version - complex
+st.session_state.owner_name = ...
+st.session_state.owner_time = ...
+st.session_state.current_pet = ...
+# etc... (too many separate variables)
+```
+
+I chose: Store the Owner object directly
+```python
+# My version - simple
+st.session_state.owner = Owner(name, available_time)
+# One variable, all data in Owner
+```
+
+**Why I rejected it:**
+- Multiple variables = hard to keep in sync
+- One Owner object = cleaner, easier to manage
+- App logic is simpler (pass `st.session_state.owner` to Scheduler)
+
+**How I verified:**
+- Tested "Create Owner" button → owner saved in session 
+- Tested "Add Pet" button → pets added to owner via `owner.add_pet()` 
+- Tested "Generate Schedule" button → scheduler accessed owner data correctly 
+- Streamlit UI worked smoothly with no state sync issues 
+
+**Lesson:** Simple is better. Don't overcomplicate just because you *can*.
 
 ---
 
@@ -90,13 +126,33 @@ Why reasonable?
 
 **a. What you tested**
 
-- What behaviors did you test?
-- Why were these tests important?
+Tested four core behaviors:
+
+1. **Task Completion**: Mark task done → `completed = True` 
+2. **Pet Task Management**: Add task to pet → increases task count 
+3. **Recurring Auto-Creation**: Complete daily task → new task created for tomorrow 
+4. **Conflict Detection**: Two tasks @ 08:00 → warning displayed (no crash) 
+
+Why important:
+- Task completion is fundamental to the whole system
+- Recurring tasks are the "smart" feature
+- Conflicts must warn but not break the app
 
 **b. Confidence**
 
-- How confident are you that your scheduler works correctly?
-- What edge cases would you test next if you had more time?
+**Confidence level: 4/5 stars**
+
+Working well:
+- Core scheduling logic tested
+- Recurring tasks demo'd in main.py
+- UI wired and functional
+- All 40+ methods have docstrings
+
+Could test more:
+- Edge case: 0 available minutes (can't fit any task)
+- Edge case: 100 tasks (performance)
+- Edge case: Circular dependencies (task depends on another task)
+- Weekly task math (does +7 days work across months/years?)
 
 ---
 
@@ -104,12 +160,34 @@ Why reasonable?
 
 **a. What went well**
 
-- What part of this project are you most satisfied with?
+Most satisfied with: **The recurring task automation with timedelta**
+
+Why:
+- Solves a real problem (pet owners repeat tasks daily!)
+- Clean implementation: `task.get_next_due_date()` + `Pet.complete_task()`
+- Auto-creates next occurrence → no manual work
+- Date math makes sense to beginners
 
 **b. What you would improve**
 
-- If you had another iteration, what would you improve or redesign?
+If I had another iteration:
+
+1. **Better UI sorting**: Let users pick between 3 sorting strategies (not dropdown, actual filters)
+2. **Task categories dropdown**: Instead of free text, restrict to ["feeding", "exercise", "grooming", "medicine", "play"]
+3. **Recurring task editing**: Let users change daily task to weekly without deleting
+4. **Mobile-responsive**: Current Streamlit works but mobile could be better
+5. **Timezone support**: Due dates assume same timezone (needed for multi-user)
 
 **c. Key takeaway**
 
-- What is one important thing you learned about designing systems or working with AI on this project?
+**Being the "lead architect" means:** You, not the AI, make the final design decisions.
+
+What I learned:
+- AI is great at implementing specs, not deciding specs
+- When AI suggests something, ask: "Does this fit my design? Is it simpler or more complex?"
+- Stay focused on requirements. Reject features that sound cool but aren't needed
+- Document your reasoning (tradeoffs, constraints) so you can explain "why" later
+
+**Best principle:** Use AI as a fast coder, not as the designer. You decide what gets built. AI decides how to build it efficiently.
+
+

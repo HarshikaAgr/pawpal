@@ -298,10 +298,7 @@ class Scheduler:
         return incomplete
 
     def check_time_conflict(self, task1, task2):
-        """Check if two tasks have time conflict (same start time)
-
-        Returns: True if both tasks start at same time, False otherwise
-        """
+        """Check if two tasks start at the same time"""
         return task1.start_time == task2.start_time
 
     def detect_all_conflicts(self):

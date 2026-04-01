@@ -22,6 +22,29 @@ Your final app should:
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
 
+## ✨ Core Features Implemented
+
+### **Sorting & Organization**
+- **By Priority**: High → Medium → Low
+- **By Duration**: Shortest tasks first (fit more in limited time)
+- **By Time**: Chronological order (08:00 → 09:00 → 18:30)
+
+### **Smart Task Management**
+- **Recurring Tasks**: Daily & weekly tasks auto-create next occurrence when completed
+- **Task Filtering**: View by pet, by completion status, by category
+- **Time Constraints**: Only schedule tasks that fit in available time
+
+### **Scheduling Intelligence**
+- **Conflict Detection**: ⚠️ Warns if tasks overlap (same start time)
+- **Schedule Explanation**: Shows which tasks fit and why (priority-based)
+- **Statistics Tracking**: Completed tasks, pending tasks, time breakdown
+
+### **User Experience**
+- Create owner profiles and manage multiple pets
+- Add tasks with priority, duration, category, recurrence
+- View organized task lists (sorted by user preference)
+- Generate optimized daily schedules in one click
+
 ## Getting started
 
 ### Setup
