@@ -44,14 +44,9 @@ My scheduler makes one major tradeoff:
 
 Example: If I have 60 minutes and tasks are:
 - Feed (5 min, high) ✓ Scheduled
-- Walk (20 min, high) ✓ Scheduled
-- Groom (30 min, medium) ✗ Doesn't fit (5+20+30 = 55, but we have 60... wait, this WOULD fit!)
-
-Actually, better example:
-- Feed (5 min, high) ✓ Scheduled
 - Walk (30 min, high) ✓ Scheduled
 - Play (20 min, medium) ✓ Scheduled
-- Groom (10 min, low) ✗ Doesn't fit (5+30+20 = 55, leaves only 5 min)
+- Groom (10 min, low) ✗ Doesn't fit because 5 + 30 + 20 = 55, so only 5 minutes 
 
 Why reasonable?
 - **Simplicity**: Easy to understand - just go down the list and fit what you can
@@ -78,14 +73,31 @@ Why reasonable?
 
 Three key ways AI helped:
 
-1. **Code Generation (Agent Mode)**: Scaffolded all 40+ methods in one task. Faster than writing by hand, freed time for testing.
-2. **Docstring Enhancement**: AI suggested clearer docstrings with return types and examples. Made code beginner-friendly.
-3. **Algorithm Evaluation**: Compared simple vs pythonic versions. Helped decide when complexity is worth it (it wasn't for this project).
+1. **Code Generation + Understanding**: AI wrote the some of the methods that I was having difficulty writing, but I READ and UNDERSTOOD the code instead of copy-pasting. This way I was able to learn HOW the code works, not just WHAT it does.
 
-Most helpful prompts:
-- "Implement Task, Pet, Owner, Scheduler with these specs..."
-- "How should Scheduler retrieve all tasks from Owner's pets?"
-- "Simplify this conflict detection for readability"
+2. **Debugging Suggestions**: When code didn't work as expected, AI helped me:
+   - Trace through logic step-by-step (recurring task creation)
+   - Understand WHY session state wasn't persisting in Streamlit
+   - Fix conflict detection to check the right conditions
+   - Verify that `owner.get_all_tasks()` flattened all pet tasks correctly
+
+3. **Architecture Questions**: Most helpful prompts were questions, not requests:
+   - "How should Scheduler retrieve all tasks from Owner's pets?" → Led to cleaner design
+   - "Is this conflict detection correct?" → Caught edge cases
+   - "What tradeoffs am I making here?" → Forced critical thinking
+
+**What worked best for me:** 
+
+AI helped most when I asked it to explain ideas and debug problems, instead of just asking it to generate code.
+
+**Edge cases AI helped catch:**
+- Empty task list = scheduler should warn, not crash ✓
+- Recurring task without pet = should still work ✓
+- Session state reset between Streamlit button clicks = use st.session_state ✓
+
+**How separate chat sessions helped me stay organized:**
+
+Using separate AI chat sessions for design, implementation, testing, and reflection helped me stay organized because each conversation stayed focused on one goal. It reduced confusion, made the AI responses more relevant, and helped me separate brainstorming from debugging and final writing. That made it easier to keep the system design clean and avoid mixing unrelated changes together.
 
 **b. Judgment and verification**
 
@@ -126,17 +138,22 @@ st.session_state.owner = Owner(name, available_time)
 
 **a. What you tested**
 
-Tested four core behaviors:
+I tested eight important behaviors in the system:
 
-1. **Task Completion**: Mark task done → `completed = True` 
-2. **Pet Task Management**: Add task to pet → increases task count 
-3. **Recurring Auto-Creation**: Complete daily task → new task created for tomorrow 
-4. **Conflict Detection**: Two tasks @ 08:00 → warning displayed (no crash) 
+1. **Task Completion**: `mark_complete()` changes a task's status to completed  
+2. **Pet Task Management**: Adding tasks to a pet increases that pet’s task count  
+3. **Owner Pet Management**: Adding a pet to an owner increases the owner’s pet count  
+4. **Schedule Generation**: The scheduler creates a plan when tasks fit in the available time  
+5. **Sorting by Time**: Tasks are returned in chronological order  
+6. **Recurring Auto-Creation**: Completing a daily task creates the next task for tomorrow  
+7. **Conflict Detection**: Two tasks at the same start time produce a conflict warning  
+8. **No-Fit Edge Case**: If available time is too small, the plan is empty instead of crashing  
 
 Why important:
-- Task completion is fundamental to the whole system
-- Recurring tasks are the "smart" feature
-- Conflicts must warn but not break the app
+- These tests cover both normal behavior and edge cases
+- They verify the core scheduling logic
+- They confirm that recurring tasks and conflicts work correctly
+- They help show that the app logic is reliable before connecting it to the UI
 
 **b. Confidence**
 
@@ -146,7 +163,7 @@ Working well:
 - Core scheduling logic tested
 - Recurring tasks demo'd in main.py
 - UI wired and functional
-- All 40+ methods have docstrings
+- Core methods are documented with docstrings
 
 Could test more:
 - Edge case: 0 available minutes (can't fit any task)

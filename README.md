@@ -35,7 +35,7 @@ Your final app should:
 - **Time Constraints**: Only schedule tasks that fit in available time
 
 ### **Scheduling Intelligence**
-- **Conflict Detection**: ⚠️ Warns if tasks overlap (same start time)
+- **Conflict Detection**: Warns if tasks overlap (same start time)
 - **Schedule Explanation**: Shows which tasks fit and why (priority-based)
 - **Statistics Tracking**: Completed tasks, pending tasks, time breakdown
 
@@ -46,9 +46,7 @@ Your final app should:
 - Generate optimized daily schedules in one click
 
 ## Getting started
-
 ### Setup
-
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
@@ -56,7 +54,6 @@ pip install -r requirements.txt
 ```
 
 ## Getting started
-
 ### Setup
 
 ```bash
@@ -74,6 +71,9 @@ python main.py
 # Interactive (Streamlit)
 streamlit run app.py
 ```
+
+**App Screenshot**
+<a href="pawpal_screenshot.png" target="_blank"><img src="pawpal_screenshot.png" title="PawPal App" alt="PawPal App" class="center-block" /></a>
 
 ---
 
@@ -100,7 +100,7 @@ Your PawPal+ system now includes intelligent task management:
 - Warns if two tasks start at same time (can't do both!)
 - Non-blocking: Displays warnings but continues running
 - Helps owners spot scheduling overlaps
-- Example: Feed @ 08:00 + Play @ 08:00 = ⚠️ CONFLICT
+- Example: Feed @ 08:00 + Play @ 08:00 = CONFLICT
 
 ### 4. **Schedule Explanation**
 - Shows which tasks fit in available time
@@ -130,14 +130,14 @@ python -m pytest tests/test_pawpal.py -v
 
 ### Test Results
 - **Total Tests**: 7
-- **Passed**: 7 ✓
+- **Passed**: 7 
 - **Failed**: 0
 
-### Confidence Level: ⭐⭐⭐⭐⭐
+### Confidence Level: 
 All core behaviors validated:
-- ✓ Happy paths (normal operation)
-- ✓ Edge cases (conflicts, recurrence)
-- ✓ Data integrity (proper sorting, creation)
+- Happy paths (normal operation)
+- Edge cases (conflicts, recurrence)
+- Data integrity (proper sorting, creation)
 
 ---
 
